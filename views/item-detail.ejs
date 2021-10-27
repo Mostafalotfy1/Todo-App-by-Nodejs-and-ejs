@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('./partials/head.ejs') %>
+
+  <body>
+    <%- include('./partials/nav.ejs') %>
+
+    <div class="container">
+      <h4>Item details</h4>
+      <div>
+        <h5>item-name: <%= item.name %> </h5>
+        <h5>item-price: <%= item.price %> </h5>
+        <button id="deleteBtn" class="delete btn" href="" data-id="<%=item.id%>">Delete</button>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>
+       const deleteBtn = document.getElementById('deleteBtn');
+      deleteBtn.onclick=(e)=>{
+        e.preventDefault();
+        // const id = deleteBtn.dataset.id
+        const id = e.target.getAttribute('data-id')
+       const endPoint=`/items/${id}`
+       fetch(endPoint,{
+         method:'DELETE'
+       }).then(res=>res.json()).then(data=>{console.log(data)
+        window.location.href = data.redirect
+      }).catch(e=>console.log(e))
+      }
+    </script>
+  </body>
+</html>
